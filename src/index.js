@@ -3,12 +3,42 @@
 import { createTodo } from "./logic/todo.js";
 import {createApp} from "./logic/app.js";
 import { saveProjects } from "./logic/storage.js";
-import { renderProjects} from "./logic/dom.js";
+import { renderProjects, renderTodos} from "./logic/dom.js";
 
 
 
 const app = createApp();
-renderProjects(app.getProjects());
+
+// state
+let activeProject = app.getProjectByName("Inbox");
+
+function handleProjectClick(project) {
+  activeProject = project;
+   renderProjects(app.getProjects(), handleProjectClick, activeProject);
+  renderTodos(activeProject);
+}
+
+document.getElementById("add-project").addEventListener("click", () => {
+  const input = document.getElementById("project-input");
+  const name = input.value.trim();
+
+  if (!name) return;
+
+  const project = app.addProject(name);
+  activeProject = project;
+
+  renderProjects(app.getProjects(), handleProjectClick, activeProject);
+  renderTodos(activeProject);
+
+  input.value = "";
+});
+
+
+// initial render
+renderProjects(app.getProjects(), handleProjectClick, activeProject);
+renderTodos(activeProject);
+
+
 
 
 const inbox = app.getProjectByName("Inbox");
