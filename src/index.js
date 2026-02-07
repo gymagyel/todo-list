@@ -1,24 +1,32 @@
 
 
 import { createTodo } from "./logic/todo.js";
+import {createApp} from "./logic/app.js";
 import { createProject } from "./logic/project.js";
 
-const inbox = createProject("Inbox");
 
+const app = createApp();
+
+const inbox = app.getProjectByName("Inbox");
 
 const todo1 = createTodo(
-  "Learn Webpack",
-  "Understand how bundling works",
-  "2026-02-10",
+  "App controller",
+  "Understand how the app manages projects",
+  "2026-02-18",
   "high"
 );
 
 inbox.addTodo(todo1);
 
-console.log("After adding:", inbox);
+const workProject = app.addProject("Work");
 
-inbox.removeTodo(0);
+const todo2 = createTodo(
+  "Finish report",
+  "Prepare monthly report",
+  "2026-02-20",
+  "medium"
+);
 
-console.log("After removing:", inbox);
+workProject.addTodo(todo2);
 
-
+console.log(app.getProjects());
