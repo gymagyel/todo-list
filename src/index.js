@@ -3,10 +3,13 @@
 import { createTodo } from "./logic/todo.js";
 import {createApp} from "./logic/app.js";
 import { saveProjects } from "./logic/storage.js";
+import { renderProjects} from "./logic/dom.js";
 
 
 
 const app = createApp();
+renderProjects(app.getProjects());
+
 
 const inbox = app.getProjectByName("Inbox");
 if (inbox.todos.length === 0) {
