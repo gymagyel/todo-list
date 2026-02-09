@@ -35,6 +35,11 @@ function renderTodos(project, onToggleTodo) {
     const text = document.createElement("span");
 text.textContent = todo.title;
 
+if (todo.completed) {
+  text.style.textDecoration = "line-through";
+  text.style.color = "#888"
+}
+
    wrapper.appendChild(checkbox);
     wrapper.appendChild(text);
 
