@@ -14,7 +14,7 @@ let activeProject = app.getProjectByName("Inbox");
 function handleProjectClick(project) {
   activeProject = project;
    renderProjects(app.getProjects(), handleProjectClick, activeProject);
-    renderTodos(activeProject, handleToggleTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
 
 }
 function handleToggleTodo(todoIndex) {
@@ -22,7 +22,14 @@ function handleToggleTodo(todoIndex) {
   todo.completed = !todo.completed;
 
   saveProjects(app.getProjects());
-  renderTodos(activeProject, handleToggleTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
+}
+
+function handleDeleteTodo(todoIndex) {
+  activeProject.todos.splice(todoIndex,1);
+
+  saveProjects(app.getProjects());
+  renderTodos(activeProject,handleToggleTodo,handleDeleteTodo);
 }
 
 document.getElementById("add-project").addEventListener("click", () => {
@@ -35,7 +42,7 @@ document.getElementById("add-project").addEventListener("click", () => {
   activeProject = project;
 
   renderProjects(app.getProjects(), handleProjectClick, activeProject);
-    renderTodos(activeProject, handleToggleTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
 
 
 
@@ -54,7 +61,7 @@ document.getElementById("add-todo").addEventListener("click", () => {
 
   activeProject.addTodo(todo);
   saveProjects(app.getProjects());
-  renderTodos(activeProject, handleToggleTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
 
   input.value = "";
 });
@@ -64,7 +71,7 @@ document.getElementById("add-todo").addEventListener("click", () => {
 
 // initial render
 renderProjects(app.getProjects(), handleProjectClick, activeProject);
-renderTodos(activeProject, handleToggleTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
 
 
 

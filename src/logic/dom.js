@@ -18,9 +18,10 @@ function renderProjects(projects, onProjectClick, activeProject) {
     container.appendChild(div);
   });
 }
-function renderTodos(project, onToggleTodo) {
+function renderTodos(project, onToggleTodo, onDeleteTodo) {
   const container = document.getElementById("todos");
   container.innerHTML = "";
+
 
   project.todos.forEach((todo, index) => {
     const wrapper = document.createElement("div");
@@ -40,8 +41,17 @@ if (todo.completed) {
   text.style.color = "#888"
 }
 
+  const deleteBtn = document.createElement("button");
+deleteBtn.textContent = "✕";
+
+deleteBtn.addEventListener("click", () => {
+  onDeleteTodo(index);
+});
+
    wrapper.appendChild(checkbox);
     wrapper.appendChild(text);
+    wrapper.appendChild(deleteBtn);
+
 
       container.appendChild(wrapper);
 
