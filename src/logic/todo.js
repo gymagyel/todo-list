@@ -1,8 +1,8 @@
 export function createTodo(
   title,
-  description,
-  dueDate,
-  priority
+  description = "",
+  dueDate = "",
+  priority = null
 ) {
   return {
     title,

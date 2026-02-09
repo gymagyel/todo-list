@@ -18,14 +18,28 @@ function renderProjects(projects, onProjectClick, activeProject) {
     container.appendChild(div);
   });
 }
-function renderTodos(project) {
+function renderTodos(project, onToggleTodo) {
   const container = document.getElementById("todos");
   container.innerHTML = "";
 
-  project.todos.forEach(todo => {
-    const div = document.createElement("div");
-    div.textContent = `${todo.title} (${todo.priority})`;
-    container.appendChild(div);
+  project.todos.forEach((todo, index) => {
+    const wrapper = document.createElement("div");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox"
+    checkbox.checked = todo.completed; 
+
+    checkbox.addEventListener("change", () => {
+      onToggleTodo(index);
+
+    });
+    const text = document.createElement("span");
+text.textContent = todo.title;
+
+   wrapper.appendChild(checkbox);
+    wrapper.appendChild(text);
+
+      container.appendChild(wrapper);
+
   });
 }
 
