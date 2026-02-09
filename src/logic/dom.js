@@ -22,8 +22,17 @@ function renderTodos(project, onToggleTodo, onDeleteTodo) {
   const container = document.getElementById("todos");
   container.innerHTML = "";
 
+    const activeTodos = project.todos
+    .map((todo, index) => ({ todo, index }))
+    .filter(item => !item.todo.completed);
 
-  project.todos.forEach((todo, index) => {
+  const completedTodos = project.todos
+    .map((todo, index) => ({ todo, index }))
+    .filter(item => item.todo.completed);
+
+
+
+  [...activeTodos, ...completedTodos].forEach(({todo, index}) => {
     const wrapper = document.createElement("div");
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox"
