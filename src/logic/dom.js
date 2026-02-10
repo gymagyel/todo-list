@@ -22,7 +22,7 @@ function renderProjects(projects, onProjectClick, activeProject) {
   });
  
 }
-function renderTodos(project, onToggleTodo, onDeleteTodo) {
+function renderTodos(project, onToggleTodo, onDeleteTodo, hideCompleted) {
   const container = document.getElementById("todos");
   container.innerHTML = "";
  
@@ -31,7 +31,9 @@ function renderTodos(project, onToggleTodo, onDeleteTodo) {
     .map((todo, index) => ({ todo, index }))
     .filter(item => !item.todo.completed);
 
-  const completedTodos = project.todos
+  const completedTodos = hideCompleted
+    ? []
+  : project.todos
     .map((todo, index) => ({ todo, index }))
     .filter(item => item.todo.completed);
 

@@ -4,6 +4,13 @@ import {createApp} from "./logic/app.js";
 import { saveProjects } from "./logic/storage.js";
 import { renderProjects, renderTodos} from "./logic/dom.js";
 
+let hideCompleted = false;
+document
+  .getElementById("hide-completed")
+  .addEventListener("change", (e) => {
+    hideCompleted = e.target.checked;
+    renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
+  });
 
 
 const app = createApp();
@@ -14,7 +21,7 @@ let activeProject = app.getProjectByName("Inbox");
 function handleProjectClick(project) {
   activeProject = project;
    renderProjects(app.getProjects(), handleProjectClick, activeProject);
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
 
 }
 function handleToggleTodo(todoIndex) {
@@ -22,14 +29,14 @@ function handleToggleTodo(todoIndex) {
   todo.completed = !todo.completed;
 
   saveProjects(app.getProjects());
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
 }
 
 function handleDeleteTodo(todoIndex) {
   activeProject.todos.splice(todoIndex,1);
 
   saveProjects(app.getProjects());
-  renderTodos(activeProject,handleToggleTodo,handleDeleteTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
 }
 
 document.getElementById("add-project").addEventListener("click", () => {
@@ -49,7 +56,7 @@ activeProject.addTodo(todo);
 saveProjects(app.getProjects());
 
   renderProjects(app.getProjects(), handleProjectClick, activeProject);
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
 
 
 
@@ -71,7 +78,7 @@ document.getElementById("add-todo").addEventListener("click", () => {
 
   activeProject.addTodo(todo);
   saveProjects(app.getProjects());
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
 
   input.value = "";
 });
@@ -81,7 +88,7 @@ renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
 
 // initial render
 renderProjects(app.getProjects(), handleProjectClick, activeProject);
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
 
 
 
