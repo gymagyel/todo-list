@@ -22,6 +22,13 @@ if (projects.length === 0) {
     saveProjects(projects);
     return project;
   }
+  function removeProject(projectToRemove) {
+  const index = projects.indexOf(projectToRemove);
+  if (index !== -1) {
+    projects.splice(index, 1);
+  }
+}
+
 
   function getProjectByName(name) {
     return projects.find(project => project.name === name);
@@ -29,6 +36,7 @@ if (projects.length === 0) {
 
   return {
     getProjects,
+    removeProject,
     addProject,
     getProjectByName,
   };

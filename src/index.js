@@ -1,15 +1,15 @@
-
 import { createTodo } from "./logic/todo.js";
 import {createApp} from "./logic/app.js";
 import { saveProjects } from "./logic/storage.js";
 import { renderProjects, renderTodos} from "./logic/dom.js";
+
 
 let hideCompleted = false;
 document
   .getElementById("hide-completed")
   .addEventListener("change", (e) => {
     hideCompleted = e.target.checked;
-    renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
+    renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);
   });
 
 
@@ -20,8 +20,8 @@ let activeProject = app.getProjectByName("Inbox");
 
 function handleProjectClick(project) {
   activeProject = project;
-   renderProjects(app.getProjects(), handleProjectClick, activeProject);
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
+   renderProjects(app.getProjects(), handleProjectClick, activeProject, handleDeleteProject);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);
 
 }
 function handleToggleTodo(todoIndex) {
@@ -29,18 +29,65 @@ function handleToggleTodo(todoIndex) {
   todo.completed = !todo.completed;
 
   saveProjects(app.getProjects());
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);
 }
+
+function handleDeleteProject(projectToDelete) {
+  app.removeProject(projectToDelete);
+
+  // if active project was deleted → switch to Inbox
+  if (activeProject === projectToDelete) {
+    activeProject = app.getProjectByName("Inbox");
+  }
+
+  saveProjects(app.getProjects());
+  renderProjects(app.getProjects(), handleProjectClick, activeProject, handleDeleteProject);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);}
+
 
 function handleDeleteTodo(todoIndex) {
   activeProject.todos.splice(todoIndex,1);
 
   saveProjects(app.getProjects());
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);
 }
 
 document.getElementById("add-project").addEventListener("click", () => {
- const titleInput = document.getElementById("todo-input");
+  const input = document.getElementById("project-input");
+  const name = input.value.trim();
+
+  if (!name) return;
+
+  const project = app.addProject(name);
+  activeProject = project;
+
+  saveProjects(app.getProjects());
+
+  renderProjects(
+    app.getProjects(),
+    handleProjectClick,
+    activeProject,
+    handleDeleteProject
+  );
+
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);
+  input.value = "";
+});
+
+function handleEditTodo(todoIndex, newDescription, newDueDate) {
+
+    
+  const todo = activeProject.todos[todoIndex];
+
+  todo.description = newDescription;
+  todo.dueDate = newDueDate;
+
+  saveProjects(app.getProjects());
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);}
+
+ 
+document.getElementById("add-todo").addEventListener("click", () => {
+  const titleInput = document.getElementById("todo-input");
 const descInput = document.getElementById("todo-description");
 const dateInput = document.getElementById("todo-date");
 
@@ -55,41 +102,33 @@ const todo = createTodo(title, description, dueDate);
 activeProject.addTodo(todo);
 saveProjects(app.getProjects());
 
-  renderProjects(app.getProjects(), handleProjectClick, activeProject);
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
+  renderProjects(app.getProjects(), handleProjectClick, activeProject, handleDeleteProject);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);
 
-
-
-  
 titleInput.value = "";
 descInput.value = "";
 dateInput.value = "";
 });
+document
+  .getElementById("project-input")
+  .addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("add-project").click();
+    }
+  });
 
-document.getElementById("add-todo").addEventListener("click", () => {
-  
-
-  const input = document.getElementById("todo-input");
-  const title = input.value.trim();
-
-  if (!title) return;
-
-  const todo = createTodo(title);
-
-  activeProject.addTodo(todo);
-  saveProjects(app.getProjects());
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
-
-  input.value = "";
-});
-
-
+document
+  .getElementById("todo-input")
+  .addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("add-todo").click();
+    }
+  });
 
 
 // initial render
-renderProjects(app.getProjects(), handleProjectClick, activeProject);
-renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted);
-
+renderProjects(app.getProjects(), handleProjectClick, activeProject, handleDeleteProject);
+renderTodos(activeProject, handleToggleTodo, handleDeleteTodo, hideCompleted, handleEditTodo);
 
 
 

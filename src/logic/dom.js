@@ -1,4 +1,5 @@
-function renderProjects(projects, onProjectClick, activeProject) {
+
+function renderProjects(projects, onProjectClick, activeProject, onDeleteProject) {
   const container = document.getElementById("projects");
   container.innerHTML = "";
 
@@ -6,23 +7,40 @@ function renderProjects(projects, onProjectClick, activeProject) {
 
 
   projects.forEach(project => {
-    const div = document.createElement("div");
-    div.textContent = project.name;
-   div.style.cursor = "pointer";
+  const wrapper = document.createElement("div");
 
-   if (project === activeProject) {
-      div.style.fontWeight = "bold";
-    }
+  const name = document.createElement("span");
+  name.textContent = project.name;
+  name.style.cursor = "pointer";
 
-    div.addEventListener("click", () => {
-      onProjectClick(project);
-    }); 
-    
-    container.appendChild(div);
+  if (project === activeProject) {
+    name.style.fontWeight = "bold";
+  }
+
+  name.addEventListener("click", () => {
+    onProjectClick(project);
   });
- 
+
+  wrapper.appendChild(name);
+
+  // ❌ do NOT allow deleting Inbox
+  if (project.name !== "Inbox") {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "✕";
+
+    deleteBtn.addEventListener("click", () => {
+      onDeleteProject(project);
+    });
+
+    wrapper.appendChild(deleteBtn);
+  }
+
+  container.appendChild(wrapper);
+});
+
+
 }
-function renderTodos(project, onToggleTodo, onDeleteTodo, hideCompleted) {
+function renderTodos(project, onToggleTodo, onDeleteTodo, hideCompleted, onEditTodo) {
   const container = document.getElementById("todos");
   container.innerHTML = "";
  
@@ -72,10 +90,42 @@ deleteBtn.addEventListener("click", () => {
     details.style.display = "none";
     details.style.marginLeft = "24px";
 
-    details.innerHTML = `
-      <div><strong>Description:</strong> ${todo.description || "-"}</div>
-      <div><strong>Due date:</strong> ${todo.dueDate || "-"}</div>
-    `;
+    const descInput = document.createElement("input");
+descInput.value = todo.description || "";
+descInput.placeholder = "Description";
+
+const dateInput = document.createElement("input");
+dateInput.type = "date";
+dateInput.value = todo.dueDate || "";
+
+const saveBtn = document.createElement("button");
+saveBtn.textContent = "Save";
+
+saveBtn.addEventListener("click" , () => {
+
+  onEditTodo(index, descInput.value.trim(), dateInput.value);
+});
+function saveAndClose() {
+  onEditTodo(index, descInput.value.trim(), dateInput.value);
+  details.style.display = "none";
+}
+
+[descInput, dateInput].forEach(input => {
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      saveAndClose();
+    }
+
+    if (e.key === "Escape") {
+      details.style.display = "none";
+    }
+  });
+});
+
+
+details.appendChild(descInput);
+details.appendChild(dateInput);
+details.appendChild(saveBtn);
 
     // 🔁 toggle details
     title.addEventListener("click", () => {
