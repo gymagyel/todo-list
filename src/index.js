@@ -33,20 +33,30 @@ function handleDeleteTodo(todoIndex) {
 }
 
 document.getElementById("add-project").addEventListener("click", () => {
-  const input = document.getElementById("project-input");
-  const name = input.value.trim();
+ const titleInput = document.getElementById("todo-input");
+const descInput = document.getElementById("todo-description");
+const dateInput = document.getElementById("todo-date");
 
-  if (!name) return;
+const title = titleInput.value.trim();
+const description = descInput.value.trim();
+const dueDate = dateInput.value;
 
-  const project = app.addProject(name);
-  activeProject = project;
+if (!title) return;
+
+const todo = createTodo(title, description, dueDate);
+
+activeProject.addTodo(todo);
+saveProjects(app.getProjects());
 
   renderProjects(app.getProjects(), handleProjectClick, activeProject);
 renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
 
 
 
-  input.value = "";
+  
+titleInput.value = "";
+descInput.value = "";
+dateInput.value = "";
 });
 
 document.getElementById("add-todo").addEventListener("click", () => {
@@ -77,14 +87,17 @@ renderTodos(activeProject, handleToggleTodo, handleDeleteTodo);
 
 
 const inbox = app.getProjectByName("Inbox");
+
 if (inbox.todos.length === 0) {
   const todo = createTodo(
-    "Persistence works");
-
+    "Test expand",
+    "This description should be visible",
+    "2026-03-01",
+    "high"
+  );
   inbox.addTodo(todo);
   saveProjects(app.getProjects());
 }
-
 
 
 
