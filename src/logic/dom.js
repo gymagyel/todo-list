@@ -110,6 +110,7 @@ function saveAndClose() {
   details.style.display = "none";
 }
 
+saveBtn.addEventListener("click", saveAndClose);
 [descInput, dateInput].forEach(input => {
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {

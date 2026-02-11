@@ -5,42 +5,44 @@
   <title>Todo List</title>
 </head>
 <body>
-  
-  <h1>Todo List</h1>
+  <div id="app">
+    
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <h2>Projects</h2>
 
+      <div class="add-project">
+        <input id="project-input" type="text" placeholder="Project name" />
+        <button id="add-project">Add</button>
+      </div>
 
-   <h2>Add Project</h2>
-<input id="project-input" type="text" placeholder="Project name" />
-<button id="add-project">Add</button> 
+      <div id="projects"></div>
+    </aside>
 
-  <h2>Projects</h2>
-  <div id="projects"></div>
+    <!-- Main Content -->
+    <main id="main">
+      <h1>Todo List</h1>
 
-    <h2>Add Todo</h2>
-    <label>
-  <input type="checkbox" id="hide-completed" />
-  Hide completed
-</label>
-<input id="todo-input" placeholder="Todo title" />
+      <div class="todo-controls">
+        <label>
+          <input type="checkbox" id="hide-completed" />
+          Hide completed
+        </label>
+      </div>
 
-<input
-  id="todo-description"
-  placeholder="Description"
-/>
+      <div class="add-todo">
+        <input id="todo-input" placeholder="Todo title" />
+        <input id="todo-description" placeholder="Description" />
+        <input id="todo-date" type="date" />
+        <button id="add-todo">Add todo</button>
+      </div>
 
-<input
-  id="todo-date"
-  type="date"
-/>
+      <div id="todos"></div>
+    </main>
 
-<button id="add-todo">Add todo</button>
-
-   <h2>Todos</h2>
-  <div id="todos"></div>
-
-
-
+  </div>
 
   <script src="main.js"></script>
 </body>
+
 </html>

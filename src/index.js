@@ -1,3 +1,4 @@
+import "./style.css";
 import { createTodo } from "./logic/todo.js";
 import {createApp} from "./logic/app.js";
 import { saveProjects } from "./logic/storage.js";

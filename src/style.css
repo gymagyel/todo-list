@@ -1,0 +1,127 @@
+/* Reset & base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f6f8;
+  color: #222;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+#sidebar {
+  width: 260px;
+  background: white;
+  border-right: 1px solid #eee;
+  padding: 30px 20px;
+}
+
+#sidebar h2 {
+  margin-top: 0;
+}
+
+.add-project {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* Main */
+#main {
+  flex: 1;
+  padding: 40px;
+}
+
+.todo-controls {
+  margin-bottom: 20px;
+}
+
+.add-todo {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.add-todo input {
+  flex: 1;
+  min-width: 150px;
+}
+
+#todos > div {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #eee;
+  transition: all 0.2s ease;
+}
+
+#todos > div:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#projects div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  cursor: pointer;
+}
+#projects button {
+  background: none;
+  border: none;
+  color: #bbb;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+/* Delete button */
+#todos button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+}
+
+#todos button:hover {
+  color: #d11;
+}
+input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4f7cff;
+}
+
+button {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f3f3f3;
+}
+.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
